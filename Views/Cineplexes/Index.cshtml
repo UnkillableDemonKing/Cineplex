@@ -1,0 +1,123 @@
+@model IEnumerable<GoogleLogin.Models.Cineplex>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    ViewData["Title"] = "About";
+}
+<style type="text/css">
+    .image {
+        float: left;
+    }
+
+        .image img {
+            display: block;
+            height: 240px;
+            width: 260px;
+        }
+
+    .content {
+        overflow: hidden;
+        padding-left: 10px;
+     
+    }
+
+    .title {
+        font-weight: bold;
+        font-size: 200%;
+        padding: 9px;
+        background: #ccc;
+    }
+
+    #space img {
+        max-width: none;
+    }
+</style>
+<h2>Cinema Locations</h2>
+
+<p>We have a total of five cineplex located across Melbourne</p>
+<script src="http://maps.google.com/maps/api/AIzaSyChzRsh_bFleg4j6Z_HI5ibpRKEqcNCKtA  " type="text/javascript"></script>
+<br />
+<div id="space" style="height: 550px;"></div>
+
+<!--Code derived from Chourouk Hjaiej example. Located at
+    https://code.msdn.microsoft.com/Google-Map-in-MVC5-21e19073  -->
+@section scripts {
+    <section class="scripts">
+
+        <script type="text/javascript">
+
+
+    $(document).ready(function () {
+        Initialize();
+    });
+
+    function Initialize() {
+
+
+        google.maps.visualRefresh = true;
+        var Melbourne = new google.maps.LatLng(-37.8136, 144.9631);
+
+
+        var mapOptions = {
+            zoom: 10,
+            center: Melbourne,
+            mapTypeId: google.maps.MapTypeId.G_NORMAL_MAP
+        };
+
+
+        var map = new google.maps.Map(document.getElementById("space"), mapOptions);
+
+        //Providing the locations for each of the Cineplex Locations
+        var data = [
+                  { "Id": 1, "PlaceName": "StKilda", "GeoLong": "-37.8640", "GeoLat": "144.9820" },
+                  { "Id": 2, "PlaceName": "CBD ", "GeoLong": "-37.8136", "GeoLat": "144.9631" },
+                  { "Id": 3, "PlaceName": "Fitzroy", "GeoLong": "-37.8011", "GeoLat": "144.9789" },
+                  { "Id": 4, "PlaceName": "SunShine", "GeoLong": "-37.7810", "GeoLat": "144.8320" },
+                  { "Id": 5, "PlaceName": "Lilydale", "GeoLong": "-37.7580", "GeoLat": "145.3500" }
+               ];
+
+        // Using the JQuery "each" selector to iterate through the JSON list and drop marker pins
+        $.each(data, function (i, item) {
+            var marker = new google.maps.Marker({
+                'position': new google.maps.LatLng(item.GeoLong, item.GeoLat),
+                'map': map,
+                'title': item.PlaceName
+            });
+
+            // Make the marker-pin blue!
+            marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png')
+        })
+    }
+
+
+        </script>
+    </section>
+}
+
+@foreach (var item in Model)
+{
+
+    <div class="container">
+        <h3 class="title">
+            Movie
+            Plaza Theatre - @Html.DisplayFor(modelItem => item.Location)
+        </h3>
+        <div class="image"><img src="@Url.Content(item.ImageUrl)" /></div>
+        <div class="content">
+            <p>@Html.DisplayFor(modelItem => item.LongDescription)</p>
+        </div>
+    </div>
+
+}
+
+
+
+
+
+
+
+
+

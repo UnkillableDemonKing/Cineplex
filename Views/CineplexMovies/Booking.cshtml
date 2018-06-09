@@ -1,0 +1,66 @@
+@model IEnumerable<GoogleLogin.Models.CineplexMovie>
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Booking";
+}
+<link href="~/css/StyleSheet.css" rel="stylesheet" type="text/css" />
+
+<div class="container">
+    <h3 class="movietitle">
+        Booking
+    </h3>
+
+    <h4>
+        <strong>@ViewData["MovieTitle"] </strong>
+    </h4>
+    <h4> @ViewData["CineplexLocation"] </h4>
+    <h4>Session time: @ViewData["SessionId"] </h4>
+    <h4>Cinema One</h4>
+
+
+            <h3>Please pick your seats</h3>
+            <!-- Seat Map showcased in Jquery-->
+            <div id="seat-map">
+                <div class="front">SCREEN</div>
+            </div>
+
+
+            <div class="booking-details">
+                <div id="legend"></div>
+                <h3>
+                    Selected Seats (
+                    <span id="counter">0</span>):
+                </h3>
+                <ul id="selected-seats"></ul>
+                Total:
+                <b>$<span id="total">0</span></b>
+            </div>
+
+
+                <!-- Submit Button when pressed will go to Payment Page if there are selected seats && User is logged in-->
+                @if (SignInManager.IsSignedIn(User))
+            {
+                    @using (Html.BeginForm("Payment", "CineplexMovies", FormMethod.Post))
+                {
+                        //Sending the TicketQuantity + Total Cost to store into the model
+                        <input name="TicketQuantity" id="ticketquantity" hidden />
+                        <input name="Cost" id="total" hidden />
+
+                        <button type="submit" id="purchasebutton" class="btn btn-primary">Proceed to Checkout</button> }
+                }
+                else
+                {
+                    <a asp-area="" asp-controller="Account" class="btn btn-primary" asp-action="Login">Log in</a>
+                }
+            </div>
+
+
+
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/jquery/dist/jquery.seat-charts.min.js"></script>
+    <script type="text/javascript" src="~/js/Seating.js"></script>
+
+

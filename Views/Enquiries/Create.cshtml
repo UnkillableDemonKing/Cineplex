@@ -1,0 +1,45 @@
+@model GoogleLogin.Models.Enquiry
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1> Enquiries</h1>
+<h2>Have a party with us!</h2>
+
+<p>
+    Here are ABC Cinemas we also cater to corporate events.
+    For more details please fill out the form below.
+</p>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>Enquiry</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Email" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Message" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Message" class="form-control" />
+                <span asp-validation-for="Message" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
